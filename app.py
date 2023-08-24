@@ -73,23 +73,23 @@ def add_game():
         status = request.form['status']
         release_date = request.form['release_date']
         format = request.form['format']
-        size = request.form['size']
-        hours_to_complete_hltb = request.form['hours_to_complete_hltb']
-        hours_to_complete_personal = request.form['hours_to_complete_personal']
-        metacritic_rating = request.form['metacritic_rating']
-        gameplay_story_rating = request.form['gameplay_story_rating']
-        controls_rating = request.form['controls_rating']
-        visuals_rating = request.form['visuals_rating']
-        audio_rating = request.form['audio_rating']
-        value_rating = request.form['value_rating']
+        size = float(request.form['size']) if request.form['size'] else 0.0
+        hours_to_complete_hltb = float(request.form['hours_to_complete_hltb']) if request.form['hours_to_complete_hltb'] else 0.0
+        hours_to_complete_personal = float(request.form['hours_to_complete_personal']) if request.form['hours_to_complete_personal'] else 0.0
+        metacritic_rating = int(request.form['metacritic_rating']) if request.form['metacritic_rating'] else 0
+        gameplay_story_rating = int(request.form['gameplay_story_rating']) if request.form['gameplay_story_rating'] else 0
+        controls_rating = int(request.form['controls_rating']) if request.form['controls_rating'] else 0
+        visuals_rating = int(request.form['visuals_rating']) if request.form['visuals_rating'] else 0
+        audio_rating = int(request.form['audio_rating']) if request.form['audio_rating'] else 0
+        value_rating = int(request.form['value_rating']) if request.form['value_rating'] else 0
 
         # Calculate the total rating
         rating = (
-                int(gameplay_story_rating)
-                + int(controls_rating)
-                + int(visuals_rating)
-                + int(audio_rating)
-                + int(value_rating)
+                gameplay_story_rating
+                + controls_rating
+                + visuals_rating
+                + audio_rating
+                + value_rating
         )
 
         # Create a new game object
