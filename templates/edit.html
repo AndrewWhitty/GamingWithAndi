@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Game</h2>
+  <form method="POST" action="{{ url_for('edit_game', game_id=game.id) }}">
+    <table>
+      <tr>
+        <td><label for="title">Title:</label></td>
+        <td><input type="text" id="title" name="title" value="{{ game.title }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="platform">Platform:</label></td>
+        <td><input type="text" id="platform" name="platform" value="{{ game.platform }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="date_started">Date Started:</label></td>
+        <td><input type="date" id="date_started" name="date_started" value="{{ game.date_started }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="date_finished">Date Finished:</label></td>
+        <td><input type="date" id="date_finished" name="date_finished" value="{{ game.date_finished }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="status">Status:</label></td>
+        <td><input type="text" id="status" name="status" value="{{ game.status }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="release_date">Release Date:</label></td>
+        <td><input type="date" id="release_date" name="release_date" value="{{ game.release_date }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="format">Format:</label></td>
+        <td><input type="text" id="format" name="format" value="{{ game.format }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="size">Size:</label></td>
+        <td><input type="text" id="size" name="size" value="{{ game.size }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="hours_to_complete_hltb">Hours to Complete (HLTB):</label></td>
+        <td><input type="number" id="hours_to_complete_hltb" name="hours_to_complete_hltb" value="{{ game.hours_to_complete_hltb }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="hours_to_complete_personal">Hours to Complete (Personal):</label></td>
+        <td><input type="number" id="hours_to_complete_personal" name="hours_to_complete_personal" value="{{ game.hours_to_complete_personal }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="metacritic_rating">Metacritic Rating:</label></td>
+        <td><input type="number" id="metacritic_rating" name="metacritic_rating" value="{{ game.metacritic_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="gameplay_story_rating">Gameplay/Story Rating:</label></td>
+        <td><input type="number" id="gameplay_story_rating" name="gameplay_story_rating" value="{{ game.gameplay_story_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="controls_rating">Controls Rating:</label></td>
+        <td><input type="number" id="controls_rating" name="controls_rating" value="{{ game.controls_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="visuals_rating">Visuals Rating:</label></td>
+        <td><input type="number" id="visuals_rating" name="visuals_rating" value="{{ game.visuals_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="audio_rating">Audio Rating:</label></td>
+        <td><input type="number" id="audio_rating" name="audio_rating" value="{{ game.audio_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="value_rating">Value Rating:</label></td>
+        <td><input type="number" id="value_rating" name="value_rating" value="{{ game.value_rating }}" required></td>
+      </tr>
+      <tr>
+        <td><label for="rating">Rating:</label></td>
+        <td><input type="number" id="rating" name="rating" value="{{ game.rating }}" required></td>
+      </tr>
+    </table>
+    <button type="submit">Update</button>
+  </form>
+{% endblock %}
