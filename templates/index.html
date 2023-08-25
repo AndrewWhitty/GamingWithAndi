@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gaming with Andi</title>
+</head>
+<body>
+    <h1>Welcome to Gaming with Andi</h1>
+    <ul>
+        {% for entry in entries %}
+        <li>{{ entry.title }} - {{ entry.platform.name }}
+            <a href="{{ url_for('edit_entry', entry_id=entry.id) }}">Edit</a>
+            <form method="post" action="{{ url_for('delete_entry', entry_id=entry.id) }}">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('add_entry') }}">Add New Entry</a>
+</body>
+</html>
