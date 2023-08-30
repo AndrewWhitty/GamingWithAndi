@@ -28,20 +28,48 @@
             <li>{{ platform }}: {{ count }}</li>
             {% endfor %}
         </ul>
-        <h2>Other Stats</h2>
+        <h2>Stats</h2>
         <div class="stat-row">
-            <p>Total Number of Games Logged: {{ total_games }}</p>
+            <div class="stat-row">
+                <h3>Total Games Owned Per Platform</h3>
+                <ul>
+                    {% for platform, total_games_owned in total_games_owned_per_platform.items() %}
+                        <li>{{ platform }}: {{ total_games_owned }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <p>Total Games: {{ total_games }}</p>
+            <p>Completed: {{ total_completed_games }}</p>
+            <p>Playing: {{ total_in_progress_games }}</p>
+            <p>Backlogs: {{ total_unplayed_games }}</p><br>
+
+            <div class="stat-row">
+                <h3>Total Hours Played Per Year</h3>
+                <ul>
+                    {% for year, total_hours in total_hours_per_year.items() %}
+                        <li>{{ year }}: {{ total_hours }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="stat-row">
+                <h3>Average Hours Played Per Platform</h3>
+                <ul>
+                    {% for platform, average_hours in average_hours_per_platform.items() %}
+                        <li>{{ platform }}: {{ average_hours }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
             <p>Total Hours Played: {{ total_hours_played }}</p>
-            <p>Average Hours Played Per Game: {{ average_hours_per_game }}</p>
-            <p>Total Completed Games: {{ total_completed_games }}</p>
-            <p>Total Games In Progress: {{ total_in_progress_games }}</p>
-            <p>Total Unplayed Games: {{ total_unplayed_games }}</p>
-            <p>Average Hours Per Game: {{ average_hours_per_completed_game }}</p>
-            <p>Most Played Platform: {{ most_played_platform }}</p>
             <p>Longest Time Played: {{ longest_time_played }}</p>
             <p>Shortest Time Played: {{ shortest_time_played }}</p>
-            <p>Average Time Played: {{ average_time_played }}</p>
+            <p>Average Time Played: {{ average_time_played }}</p><br>
+            
+            <p>Most Played Platform: {{ most_played_platform }}</p>
         </div>
+                
         <div class="stat-row">
             <h3>Average Critic Ratings per Platform:</h3>
             <ul>
@@ -50,31 +78,7 @@
               {% endfor %}
             </ul>
         </div>
-        <div class="stat-row">
-            <h3>Average Hours Played Per Platform</h3>
-            <ul>
-                {% for platform, average_hours in average_hours_per_platform.items() %}
-                    <li>{{ platform }}: {{ average_hours }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="stat-row">
-            <h3>Total Hours Played Per Year</h3>
-            <ul>
-                {% for year, total_hours in total_hours_per_year.items() %}
-                    <li>{{ year }}: {{ total_hours }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="stat-row">
-            <h3>Total Games Owned Per Platform</h3>
-            <ul>
-                {% for platform, total_games_owned in total_games_owned_per_platform.items() %}
-                    <li>{{ platform }}: {{ total_games_owned }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <!-- Add more stats sections here -->
+
     </main>
 </body>
 </html>
