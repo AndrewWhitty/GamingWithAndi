@@ -83,4 +83,4 @@ def stats():
                            average_hours_by_completion_range=average_hours_by_completion_range)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)    
