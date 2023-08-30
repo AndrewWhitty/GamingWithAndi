@@ -23,26 +23,27 @@ def stats():
     total_games_owned_per_platform = data[data['Platform'].isin(data['Platform'].value_counts().index)].groupby('Platform').size().to_dict()
     
     total_games = len(data)
-    total_hours_played = round(data['Hours Played'].sum(), 0)
-    average_hours_per_game = round(total_hours_played / total_games, 0)
+    total_hours_played = int(data['Hours Played'].sum())
+    average_hours_per_game = int(total_hours_played / total_games)
     total_completed_games = len(data[data['Status'] == 'Completed'])
     total_in_progress_games = len(data[data['Status'] == 'Now Playing'])
     total_unplayed_games = len(data[(data['Status'] != 'Completed') & (data['Status'] != 'Now Playing')])
 
     completed_games = data[data['Status'] == 'Completed']
-    valid_completion_percentages = completed_games[completed_games['Completion %'].notnull() & (completed_games['Completion %'] > 0)]
-    average_completion_percentage = round(valid_completion_percentages['Completion %'].mean(), 2)
+    valid_hours_played = completed_games[(completed_games['Hours Played'].notnull()) & (completed_games['Hours Played'] > 0)]
+    average_hours_per_completed_game = int(valid_hours_played['Hours Played'].mean())
     
     most_played_platform = completed_games['Platform'].mode().iloc[0]
 
     valid_hours_played = completed_games[(completed_games['Hours Played'].notnull()) & (completed_games['Hours Played'] > 0)]
     
-    longest_time_played = round(valid_hours_played['Hours Played'].max(), 0)
-    shortest_time_played = round(valid_hours_played['Hours Played'].min(), 0)
-    average_time_played = round(valid_hours_played['Hours Played'].mean(), 0)
+    longest_time_played = int(valid_hours_played['Hours Played'].max())
+    shortest_time_played = int(valid_hours_played['Hours Played'].min())
+    average_time_played = int(valid_hours_played['Hours Played'].mean())
 
-    valid_critic_ratings = completed_games[completed_games['Critic Rating'].notnull() & (completed_games['Critic Rating'] > 0)]
-    average_critic_rating = round(valid_critic_ratings['Critic Rating'].mean(), 2)
+    valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
+    average_critic_rating_per_platform = valid_critic_ratings.groupby('Platform')['Critic Rating'].mean().to_dict()
+
 
     current_year = datetime.now().year
     valid_date_completed = completed_games['Date Finished'].dropna()
@@ -65,12 +66,12 @@ def stats():
                            total_completed_games=total_completed_games,
                            total_in_progress_games=total_in_progress_games,
                            total_unplayed_games=total_unplayed_games,
-                           average_completion_percentage=average_completion_percentage,
+                           average_hours_per_completed_game=average_hours_per_completed_game,
                            most_played_platform=most_played_platform,
                            longest_time_played=longest_time_played,
                            shortest_time_played=shortest_time_played,
                            average_time_played=average_time_played,
-                           average_critic_rating=average_critic_rating,
+                           average_critic_rating_per_platform=average_critic_rating_per_platform,
                            games_completed_this_year=games_completed_this_year,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            average_hours_per_platform=average_hours_per_platform,
