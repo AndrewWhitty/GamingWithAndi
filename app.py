@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from datetime import datetime
 
@@ -10,11 +10,14 @@ default_columns = ['Status', 'Platform', 'Title', 'Completion %', 'HLTB Story', 
 
 @app.route('/')
 def gaming_log():
-    selected_columns = request.args.getlist('columns')
-    if not selected_columns:
-        selected_columns = default_columns
+    return render_template('gaming_log.html')
 
-    return render_template('gaming_log.html', columns=selected_columns, data=data.to_dict('records'))
+@app.route('/get_table_data/<status>')
+def get_table_data(status):
+    filtered_data = data[data['Status'] == status]
+    columns = [col for col in default_columns if col != 'Status']
+    table_data = filtered_data[columns].to_dict('records')
+    return jsonify(table_data)
 
 @app.route('/stats')
 def stats():
