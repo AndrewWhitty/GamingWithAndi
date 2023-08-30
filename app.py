@@ -41,7 +41,13 @@ def stats():
 
     valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
     average_critic_rating_per_platform = {platform: int(rating) for platform, rating in average_critic_rating_per_platform.items()}
-
+    
+    # Calculate the average critic rating for each platform
+    average_critic_rating_per_platform = {platform: valid_critic_ratings[valid_critic_ratings['Platform'] == platform]['Critic Rating'].mean() for platform in data['Platform'].unique()}
+    
+    # Remove platforms with null or 0 critic ratings
+    average_critic_rating_per_platform = {platform: rating for platform, rating in average_critic_rating_per_platform.items() if pd.notna(rating) and rating > 0}
+    
     current_year = datetime.now().year
     valid_date_completed = completed_games['Date Finished'].dropna()
     games_completed_this_year = len(valid_date_completed[valid_date_completed.astype(str).str.contains(str(current_year))])
@@ -59,6 +65,7 @@ def stats():
     sorted_total_games_owned_per_platform = dict(sorted(total_games_owned_per_platform.items(), key=lambda item: item[1], reverse=True))
     sorted_average_hours_per_platform = dict(sorted(average_hours_per_platform.items(), key=lambda item: item[1], reverse=True))
     sorted_total_hours_per_year = dict(sorted(total_hours_per_year.items(), key=lambda item: item[1], reverse=True))
+    sorted_average_critic_rating_per_platform = dict(sorted(average_critic_rating_per_platform.items(), key=lambda item: item[1], reverse=True))
     
     return render_template('stats.html',
                            total_games_owned_per_platform=sorted_total_games_owned_per_platform,
