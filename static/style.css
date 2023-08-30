@@ -60,13 +60,17 @@ th, td {
     background-color: #1E1E1E; /* Background color for the search input */
 }
 
+.dataTables_info, .dataTables_paginate {
+    color: #CCCCCC; /* Text color for pagination info and controls */
+}
+
 th {
     background-color: #1E1E1E;
 }
 
 /* Alternating row colors */
-.table-striped tbody tr:nth-child(even) {
-    background-color: #121212; /* Dark background color */
+tr:nth-child(even) {
+    background-color: #0D0D0D; /* Slightly different darker shade */
 }
 
 /* Responsive styles */
