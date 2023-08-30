@@ -44,12 +44,12 @@ th {
 
 /* Alternating row colors */
 tr:nth-child(even) {
-    background-color: #0D0D0D; /* Slightly different darker shade */
+    background-color: #0D0D0D !important; /* Slightly different darker shade */
 }
 
 /* Odd row colors */
 tr:nth-child(odd) {
-    background-color: #121212; /* Dark background for odd rows */
+    background-color: #121212 !important; /* Dark background for odd rows */
 }
 
 /* Responsive styles */
