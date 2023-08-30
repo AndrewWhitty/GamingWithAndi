@@ -22,37 +22,38 @@ def stats():
     platform_stats = data['Platform'].value_counts().to_dict()
 
     total_games = len(data)
-    total_hours_played = data['Hours Played'].sum()
-    average_hours_per_game = total_hours_played / total_games
+    total_hours_played = round(data['Hours Played'].sum(), 2)
+    average_hours_per_game = round(total_hours_played / total_games, 2)
     total_completed_games = len(data[data['Status'] == 'Completed'])
     total_in_progress_games = len(data[data['Status'] == 'In Progress'])
     total_unplayed_games = len(data[data['Status'] == 'Unplayed'])
-    average_completion_percentage = data['Completion %'].mean()
+
+    valid_completion_percentages = data[data['Completion %'].notnull() & (data['Completion %'] > 0)]
+    average_completion_percentage = round(valid_completion_percentages['Completion %'].mean(), 2)
     most_played_platform = data['Platform'].mode().iloc[0]
-    average_completion_by_platform = data.groupby('Platform')['Completion %'].mean().to_dict()
-    longest_time_played = data['Hours Played'].max()
-    shortest_time_played = data['Hours Played'].min()
-    average_time_played = data['Hours Played'].mean()
-    average_critic_rating = data['Critic Rating'].mean()
-    highest_critic_rating = data['Critic Rating'].max()
-    lowest_critic_rating = data['Critic Rating'].min()
+
+    longest_time_played = round(data['Hours Played'].max(), 2)
+    shortest_time_played = round(data['Hours Played'].min(), 2)
+    average_time_played = round(data[data['Hours Played'] > 0]['Hours Played'].mean(), 2)
+
+    valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
+    average_critic_rating = round(valid_critic_ratings['Critic Rating'].mean(), 2)
+    highest_critic_rating = round(valid_critic_ratings['Critic Rating'].max(), 2)
+    lowest_critic_rating = round(valid_critic_ratings['Critic Rating'].min(), 2)
 
     current_year = datetime.now().year
     valid_date_completed = data['Date Finished'].dropna()
     games_completed_this_year = len(valid_date_completed[valid_date_completed.str.contains(str(current_year))])
 
-    percentage_completed_vs_uncompleted = (total_completed_games / total_games) * 100
+    percentage_completed_vs_uncompleted = round((total_completed_games / total_games) * 100, 2)
     most_common_status = data['Status'].mode().iloc[0]
-    average_hours_per_platform = data.groupby('Platform')['Hours Played'].mean().to_dict()
 
-    average_hours_by_completion_range = {}
-    for range_start in range(0, 101, 20):
-        range_end = range_start + 19
-        mask = (data['Completion %'] >= range_start) & (data['Completion %'] <= range_end)
-        average_hours = data[mask]['Hours Played'].mean()
-        average_hours_by_completion_range[f'{range_start}-{range_end}%'] = average_hours
+    valid_hours_per_platform = data[data['Hours Played'] > 0]
+    average_hours_per_platform = valid_hours_per_platform.groupby('Platform')['Hours Played'].mean().to_dict()
 
-    # ... (remaining stats sections)
+    total_hours_per_year = data.groupby('Year')['Hours Played'].sum().to_dict()
+
+    total_games_owned_per_platform = valid_hours_per_platform['Platform'].value_counts().to_dict()
 
     return render_template('stats.html',
                            platform_stats=platform_stats,
@@ -64,7 +65,6 @@ def stats():
                            total_unplayed_games=total_unplayed_games,
                            average_completion_percentage=average_completion_percentage,
                            most_played_platform=most_played_platform,
-                           average_completion_by_platform=average_completion_by_platform,
                            longest_time_played=longest_time_played,
                            shortest_time_played=shortest_time_played,
                            average_time_played=average_time_played,
@@ -75,7 +75,8 @@ def stats():
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            most_common_status=most_common_status,
                            average_hours_per_platform=average_hours_per_platform,
-                           average_hours_by_completion_range=average_hours_by_completion_range)
+                           total_hours_per_year=total_hours_per_year,
+                           total_games_owned_per_platform=total_games_owned_per_platform)
 
 if __name__ == '__main__':
     app.run(debug=True)
