@@ -29,6 +29,15 @@ def stats():
         }
         total_games_by_platform[platform] = total_by_status
 
+    # Calculate total for each status and total for all statuses
+    total_status = {
+        'Completed': sum(total['Completed'] for total in total_games_by_platform.values()),
+        'Playing': sum(total['Playing'] for total in total_games_by_platform.values()),
+        'Backlog': sum(total['Backlog'] for total in total_games_by_platform.values()),
+    }
+    total_all = sum(total_status.values())
+
+
     total_games = len(data)
     total_hours_played = int(data['Hours Played'].sum())
     average_hours_per_game = int(total_hours_played / total_games)
@@ -80,6 +89,8 @@ def stats():
     return render_template('stats.html',
                            average_hours_per_platform=sorted_average_hours_per_platform,
                            total_games_by_platform=total_games_by_platform,
+                           total_status=total_status,
+                           total_all=total_all,
                            total_hours_per_year=sorted_total_hours_per_year,
                            total_games=total_games,
                            total_hours_played=total_hours_played,
