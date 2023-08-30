@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming With Andi - Stats</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Stats</h1>
-    <h2>Average Hours per Game: {{ average_hours_per_game }}</h2>
-    <h2>Current Year in Gaming</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Hours Played</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for _, row in current_year_stats.iterrows() %}
-            <tr>
-                <td>{{ row['Title'] }}</td>
-                <td>{{ row['Hours Played'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Gaming With Andi - Stats</h1>
+    <h2>Platform Stats</h2>
+    <ul>
+        {% for platform, count in platform_stats.items() %}
+        <li>{{ platform }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Other Stats</h2>
+    <p>Average Hours Played Per Game: {{ average_hours_per_game }}</p>
+    <!-- Add more statistics here -->
 </body>
 </html>
