@@ -25,27 +25,39 @@
         <div class="stat-row">
             <div class="stat-row">
                 <h3>Games Distribution by Platform and Status</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Platform</th>
-                            <th>Completed</th>
-                            <th>Playing</th>
-                            <th>Backlog</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for platform, total in total_games_by_platform.items() %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td>{{ platform }}</td>
-                                <td>{{ total['Completed'] }}</td>
-                                <td>{{ total['Playing'] }}</td>
-                                <td>{{ total['Backlog'] }}</td>
+                                <th>Platform</th>
+                                <th>Completed</th>
+                                <th>Playing</th>
+                                <th>Backlog</th>
+                                <th>Total</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for platform, total in total_games_by_platform.items() %}
+                                <tr>
+                                    <td>{{ platform }}</td>
+                                    <td>{{ total['Completed'] }}</td>
+                                    <td>{{ total['Playing'] }}</td>
+                                    <td>{{ total['Backlog'] }}</td>
+                                    <td>{{ total['Completed'] + total['Playing'] + total['Backlog'] }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td>Total</td>
+                                {% for status in ['Completed', 'Playing', 'Backlog'] %}
+                                    <td>{{ total_status[status] }}</td>
+                                {% endfor %}
+                                <td>{{ total_all }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
 
 
 
