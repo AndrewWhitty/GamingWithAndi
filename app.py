@@ -18,7 +18,7 @@ def gaming_log():
 
 @app.route('/stats')
 def stats():
-    total_games_owned_per_platform = {platform: int(count) for platform, count in data[data['Platform'].isin(data['Platform'].value_counts().index)].groupby('Platform').size().to_dict().items()}
+    total_games_owned_per_platform = {platform: int(count) for platform, count in data['Platform'].value_counts().to_dict().items()}
 
     total_games = len(data)
     total_hours_played = int(data['Hours Played'].sum())
@@ -58,7 +58,10 @@ def stats():
 
     data['Year'] = pd.to_datetime(data['Date Finished']).dt.year
 
-    total_hours_per_year = {year: int(hours) for year, hours in total_hours_per_year.items()}
+    total_hours_per_year = {}
+    
+    for year, group in data.groupby(data['Year']):
+        total_hours_per_year[year] = int(group['Hours Played'].sum())
 
     # Sort the dictionary values in descending order
     sorted_total_games_owned_per_platform = dict(sorted(total_games_owned_per_platform.items(), key=lambda item: item[1], reverse=True))
