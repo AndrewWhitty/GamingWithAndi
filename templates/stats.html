@@ -21,22 +21,33 @@
         </div>
     </nav>
     <main class="container">
-        <h1>Gaming With Andi - Stats</h1>
-        <h2>Stats</h2>
+        <h1>Stats</h1>
         <div class="stat-row">
             <div class="stat-row">
-                <h3>Total Games Owned Per Platform</h3>
-                <ul>
-                    {% for platform, total_games_owned in total_games_owned_per_platform.items() %}
-                        <li>{{ platform }}: {{ total_games_owned }}</li>
-                    {% endfor %}
-                </ul>
+                <h3>Games Distribution by Platform and Status</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Completed</th>
+                            <th>Playing</th>
+                            <th>Backlog</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for platform, total in total_games_by_platform.items() %}
+                            <tr>
+                                <td>{{ platform }}</td>
+                                <td>{{ total['Completed'] }}</td>
+                                <td>{{ total['Playing'] }}</td>
+                                <td>{{ total['Backlog'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            
-            <p>Total Games: {{ total_games }}</p>
-            <p>Completed: {{ total_completed_games }}</p>
-            <p>Playing: {{ total_in_progress_games }}</p>
-            <p>Backlogs: {{ total_unplayed_games }}</p><br>
+
+
 
             <div class="stat-row">
                 <h3>Total Hours Played Per Year</h3>
