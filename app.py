@@ -1,35 +1,30 @@
 from flask import Flask, render_template, request
-import csv
+import pandas as pd
 
 app = Flask(__name__)
 
+# Load CSV data into a Pandas DataFrame
+data = pd.read_csv('data/gamedata.csv')
+
+default_columns = ['Title', 'Platform', 'Status', 'Completion %', 'HLTB Story', 'HLTB Extras', 'HLTB Complete', 'Critic Rating']
+
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/gaming_log')
 def gaming_log():
-    with open('data/gamedata.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        games = list(reader)
-    return render_template('gaming_log.html', games=games)
+    selected_columns = request.args.getlist('columns')
+    if not selected_columns:
+        selected_columns = default_columns
 
-@app.route('/stats', methods=['GET', 'POST'])
+    return render_template('gaming_log.html', columns=selected_columns, data=data.to_dict('records'))
+
+@app.route('/stats')
 def stats():
-    platforms = set()
-    with open('data/gamedata.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        games = list(reader)
-        for game in games:
-            platforms.add(game['platform'])
-    
-    selected_platform = request.form.get('platform')
-    if selected_platform == 'all':
-        filtered_games = games
-    else:
-        filtered_games = [game for game in games if game['platform'] == selected_platform]
-    
-    return render_template('stats.html', games=filtered_games, platforms=platforms)
+    platform_stats = data['Platform'].value_counts().to_dict()
+
+    # Calculate other statistics as needed
+    average_hours_per_game = data['Hours Played'].mean()
+    # Add more statistics calculations here
+
+    return render_template('stats.html', platform_stats=platform_stats, average_hours_per_game=average_hours_per_game)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
