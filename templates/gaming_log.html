@@ -19,25 +19,6 @@
                 ],
                 pageLength: 10 // Adjust the value as needed
             });
-
-            $('#columns').change(function() {
-                const selectedColumns = $(this).val();
-                table.columns().visible(false);
-                selectedColumns.forEach(col => {
-                    table.column(col).visible(true);
-                });
-            });
-
-            // Populate the platform dropdown
-            const platformDropdown = $('#platform-dropdown');
-            $.get('/get_platforms', function(data) {
-                data.forEach(platform => {
-                    platformDropdown.append($('<option>', {
-                        value: platform,
-                        text: platform
-                    }));
-                });
-            });
         });
     </script>
 </head>
@@ -56,12 +37,6 @@
     </nav>
     <main class="container">
         <h1>Gaming With Andi - Gaming Log</h1>
-        <div class="form-group">
-            <label for="platform-dropdown">Select Platform:</label>
-            <select id="platform-dropdown" class="form-control">
-                <option value="" selected disabled>Select a platform</option>
-            </select>
-        </div>
         <table id="gaming-table" class="table table-striped">
             <thead>
                 <tr>
