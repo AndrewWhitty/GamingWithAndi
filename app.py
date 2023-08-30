@@ -38,7 +38,7 @@ def stats():
     lowest_critic_rating = data['Critic Rating'].min()
 
     current_year = datetime.now().year
-    games_completed_this_year = len(data[data['Status'] == 'Completed'][data['End Date'].str.contains(str(current_year))])
+    games_completed_this_year = len(data[data['Status'] == 'Completed'][data['Date Finished'].str.contains(str(current_year))])
     # Calculate more time frame stats here
 
     most_played_genre = data['Genre'].mode().iloc[0]
