@@ -57,6 +57,7 @@ th, td {
 /* Adjust the color of the search input */
 .dataTables_filter input[type="search"] {
     color: #CCCCCC;
+    background-color: #1E1E1E; /* Background color for the search input */
 }
 
 th {
@@ -66,11 +67,6 @@ th {
 /* Alternating row colors */
 tr:nth-child(even) {
     background-color: #0D0D0D; /* Slightly different darker shade */
-}
-
-/* Adjust the background color for odd rows */
-tr:nth-child(odd) {
-    background-color: #1A1A1A; /* Dark background color */
 }
 
 /* Responsive styles */
