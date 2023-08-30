@@ -35,11 +35,16 @@ nav a {
 }
 
 /* Table styles */
+.table-container {
+    max-height: 500px; /* Adjust the value as needed */
+    overflow-y: auto;
+    margin-top: 20px;
+    border: 1px solid #FFFFFF;
+}
+
 table {
     width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
-    border: 1px solid #FFFFFF;
 }
 
 th, td {
