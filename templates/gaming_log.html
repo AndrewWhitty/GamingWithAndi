@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming With Andi - Gaming Log</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='tablesorter.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#columns').change(function() {
@@ -14,17 +15,25 @@
                 params.set('columns', selectedColumns);
                 window.location.search = params.toString();
             });
+
+            $('#gaming-table').tablesorter();
         });
     </script>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="/">Gaming Log</a></li>
+            <li><a href="/stats">Stats</a></li>
+        </ul>
+    </nav>
     <h1>Gaming With Andi - Gaming Log</h1>
     <select id="columns" multiple>
         {% for col in default_columns %}
         <option value="{{ col }}" {% if col in columns %}selected{% endif %}>{{ col }}</option>
         {% endfor %}
     </select>
-    <table>
+    <table id="gaming-table" class="tablesorter">
         <thead>
             <tr>
                 {% for col in columns %}
