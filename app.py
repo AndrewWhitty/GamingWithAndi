@@ -18,7 +18,16 @@ def gaming_log():
 
 @app.route('/stats')
 def stats():
-    total_games_owned_per_platform = {platform: int(count) for platform, count in data['Platform'].value_counts().to_dict().items()}
+    # Create a dictionary to store distribution by platform and status
+    total_games_by_platform = {}
+
+    for platform in data['Platform'].unique():
+        total_by_status = {
+            'Completed': len(data[(data['Status'] == 'Completed') & (data['Platform'] == platform)]),
+            'Playing': len(data[(data['Status'] == 'Playing') & (data['Platform'] == platform)]),
+            'Backlog': len(data[(data['Status'] == 'Backlog') & (data['Platform'] == platform)]),
+        }
+        total_games_by_platform[platform] = total_by_status
 
     total_games = len(data)
     total_hours_played = int(data['Hours Played'].sum())
@@ -64,14 +73,13 @@ def stats():
         total_hours_per_year[year] = int(group['Hours Played'].sum())
 
     # Sort the dictionary values in descending order
-    sorted_total_games_owned_per_platform = dict(sorted(total_games_owned_per_platform.items(), key=lambda item: item[1], reverse=True))
     sorted_average_hours_per_platform = dict(sorted(average_hours_per_platform.items(), key=lambda item: item[1], reverse=True))
     sorted_total_hours_per_year = dict(sorted(total_hours_per_year.items(), key=lambda item: item[1], reverse=True))
     sorted_average_critic_rating_per_platform = dict(sorted(average_critic_rating_per_platform.items(), key=lambda item: item[1], reverse=True))
     
     return render_template('stats.html',
-                           total_games_owned_per_platform=sorted_total_games_owned_per_platform,
                            average_hours_per_platform=sorted_average_hours_per_platform,
+                           total_games_by_platform=total_games_by_platform,
                            total_hours_per_year=sorted_total_hours_per_year,
                            total_games=total_games,
                            total_hours_played=total_hours_played,
