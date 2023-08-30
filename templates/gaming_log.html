@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data | sort(attribute='Title', reverse=True) if row['Status'] == 'Playing' %}
+                    {% for row in data if row['Status'] == 'Playing' %}
                         <tr>
                             <td>{{ row['Platform'] }}</td>
                             <td>{{ row['Title'] }}</td>
@@ -57,12 +57,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data | sort(attribute='Date Finished', reverse=True) if row['Status'] == 'Completed' %}
+                    {% for row in data if row['Status'] == 'Completed' %}
                         <tr>
                             <td>{{ row['Platform'] }}</td>
                             <td>{{ row['Title'] }}</td>
                             <td>{{ row['Hours Played'] }}</td>
-                            <td>{{ row['Date Finished'] }}</td>
+                            <td>
+                                {% if row['Date Finished'] %}
+                                    {{ row['Date Finished'] }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -81,7 +87,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data | sort(attribute='Critic Rating', reverse=True) if row['Status'] == 'Backlog' %}
+                    {% for row in data if row['Status'] == 'Backlog' %}
                         <tr>
                             <td>{{ row['Platform'] }}</td>
                             <td>{{ row['Title'] }}</td>
