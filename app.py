@@ -13,6 +13,7 @@ def gaming_log():
     columns = [col for col in default_columns if col != 'Status']
     return render_template('gaming_log.html', columns=columns, data=data.to_dict('records'))
 
+
 @app.route('/stats')
 def stats():
     # Create a dictionary to store distribution by platform and status
