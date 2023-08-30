@@ -11,7 +11,13 @@
     <script src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            const table = $('#gaming-table').DataTable({
+            loadDataTable('Playing');
+            loadDataTable('Completed');
+            loadDataTable('Backlog');
+        });
+
+        function loadDataTable(status) {
+            const table = $('#' + status.toLowerCase() + '-table').DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
                 buttons: [
@@ -19,9 +25,14 @@
                 ],
                 pageLength: 10 // Adjust the value as needed
             });
-            
-            table.column('Status:name').search('Completed').draw();
-        });
+
+            $.ajax({
+                url: '/get_table_data/' + status,
+                success: function(data) {
+                    table.clear().rows.add(data).draw();
+                }
+            });
+        }
     </script>
 </head>
 <body class="dark-background">
@@ -41,77 +52,23 @@
         <h1>Gaming With Andi - Gaming Log</h1>
         
         <div class="status-table">
-            <h2>Playing Status</h2>
+            <h3>Playing Status</h3>
             <table id="playing-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        <!-- Loop through columns except 'Status' -->
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through rows with 'Playing' status -->
-                    {% for row in data if row['Status'] == 'Playing' %}
-                        <tr>
-                            <!-- Loop through columns except 'Status' -->
-                            {% for col in columns if col != 'Status' %}
-                                <td>{{ row[col] }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
+                <!-- DataTable content will be populated dynamically using JavaScript -->
             </table>
         </div>
         
         <div class="status-table">
-            <h2>Completed Status</h2>
+            <h3>Completed Status</h3>
             <table id="completed-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        <!-- Loop through columns except 'Status' -->
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through rows with 'Completed' status -->
-                    {% for row in data if row['Status'] == 'Completed' %}
-                        <tr>
-                            <!-- Loop through columns except 'Status' -->
-                            {% for col in columns if col != 'Status' %}
-                                <td>{{ row[col] }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
+                <!-- DataTable content will be populated dynamically using JavaScript -->
             </table>
         </div>
         
         <div class="status-table">
-            <h2>Backlog Status</h2>
+            <h3>Backlog Status</h3>
             <table id="backlog-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        <!-- Loop through columns except 'Status' -->
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through rows with 'Backlog' status -->
-                    {% for row in data if row['Status'] == 'Backlog' %}
-                        <tr>
-                            <!-- Loop through columns except 'Status' -->
-                            {% for col in columns if col != 'Status' %}
-                                <td>{{ row[col] }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
+                <!-- DataTable content will be populated dynamically using JavaScript -->
             </table>
         </div>
         
