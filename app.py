@@ -38,10 +38,9 @@ def stats():
     longest_time_played = int(valid_hours_played['Hours Played'].max())
     shortest_time_played = int(valid_hours_played['Hours Played'].min())
     average_time_played = int(valid_hours_played['Hours Played'].mean())
-
-    valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
-    average_critic_rating_per_platform = {platform: int(rating) for platform, rating in average_critic_rating_per_platform.items()}
     
+    valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
+
     # Calculate the average critic rating for each platform
     average_critic_rating_per_platform = {platform: valid_critic_ratings[valid_critic_ratings['Platform'] == platform]['Critic Rating'].mean() for platform in data['Platform'].unique()}
     
