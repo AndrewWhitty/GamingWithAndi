@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ... (other meta tags) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming With Andi - Gaming Log</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery.dataTables.min.css') }}">
     <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='datatables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             const table = $('#gaming-table').DataTable({
                 responsive: true,
-                columnDefs: [
-                    { orderable: false, targets: 'no-sort' }
-                ],
                 dom: 'Bfrtip',
                 buttons: [
                     'columnsToggle'
                 ]
             });
 
-            $('#columns').on('change', function() {
+            $('#columns').change(function() {
                 const selectedColumns = $(this).val();
                 table.columns().visible(false);
                 selectedColumns.forEach(col => {
@@ -52,7 +52,7 @@
         <table id="gaming-table" class="table table-striped">
             <thead>
                 <tr>
-                    {% for col in default_columns %}
+                    {% for col in columns %}
                     <th>{{ col }}</th>
                     {% endfor %}
                 </tr>
@@ -60,7 +60,7 @@
             <tbody>
                 {% for row in data %}
                 <tr>
-                    {% for col in default_columns %}
+                    {% for col in columns %}
                     <td>{{ row[col] }}</td>
                     {% endfor %}
                 </tr>
