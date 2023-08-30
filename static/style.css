@@ -65,8 +65,8 @@ th {
 }
 
 /* Alternating row colors */
-tr:nth-child(even) {
-    background-color: #0D0D0D; /* Slightly different darker shade */
+.table-striped tbody tr:nth-child(even) {
+    background-color: #121212; /* Dark background color */
 }
 
 /* Responsive styles */
