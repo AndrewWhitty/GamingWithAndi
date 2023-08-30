@@ -55,9 +55,14 @@ th, td {
 }
 
 /* Adjust the color of the search input */
-.dataTables_filter input[type="search"] {
+#gaming-table .dataTables_filter input[type="search"] {
     color: #CCCCCC !important; /* Text color for the search input */
     background-color: #1E1E1E; /* Background color for the search input */
+}
+
+/* Pagination text color */
+#gaming-table .dataTables_paginate .paginate_button {
+    color: #CCCCCC !important;
 }
 
 th {
