@@ -75,7 +75,7 @@ def stats():
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            average_hours_per_platform=average_hours_per_platform,
                            total_hours_per_year=total_hours_per_year),
-                            total_games_owned_per_platform=total_games_owned_per_platform)
+                           total_games_owned_per_platform=total_games_owned_per_platform)
 
 if __name__ == '__main__':
     app.run(debug=True)
