@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def gaming_log():
-    data = pd.read_csv('gamedata.csv')
+    data = pd.read_csv('data/gamedata.csv')
     return render_template('gaming_log.html', data=data)
 
 @app.route('/stats')
