@@ -38,8 +38,8 @@ def stats():
     lowest_critic_rating = data['Critic Rating'].min()
 
     current_year = datetime.now().year
-    games_completed_this_year = len(data[data['Status'] == 'Completed'][data['Date Finished'].str.contains(str(current_year))])
-    # Calculate more time frame stats here
+    valid_date_completed = data['Date Finished'].dropna()  # Drop NaN values
+    games_completed_this_year = len(valid_date_completed[valid_date_completed.str.contains(str(current_year))])
 
     most_played_genre = data['Genre'].mode().iloc[0]
     average_completion_by_genre = data.groupby('Genre')['Completion %'].mean().to_dict()
