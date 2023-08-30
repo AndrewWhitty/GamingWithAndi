@@ -28,20 +28,18 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
+                        <th>Platform</th>
+                        <th>Title</th>
+                        <th>HLTB Story</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
-                        {% if row['Status'] == 'Playing' %}
-                            <tr>
-                                {% for col in columns if col != 'Status' %}
-                                    <td>{{ row[col] }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endif %}
+                    {% for row in data | sort(attribute='Title', reverse=True) if row['Status'] == 'Playing' %}
+                        <tr>
+                            <td>{{ row['Platform'] }}</td>
+                            <td>{{ row['Title'] }}</td>
+                            <td>{{ row['HLTB Story'] }}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -52,20 +50,20 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
+                        <th>Platform</th>
+                        <th>Title</th>
+                        <th>Hours Played</th>
+                        <th>Date Finished</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
-                        {% if row['Status'] == 'Completed' %}
-                            <tr>
-                                {% for col in columns if col != 'Status' %}
-                                    <td>{{ row[col] }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endif %}
+                    {% for row in data | sort(attribute='Date Finished', reverse=True) if row['Status'] == 'Completed' %}
+                        <tr>
+                            <td>{{ row['Platform'] }}</td>
+                            <td>{{ row['Title'] }}</td>
+                            <td>{{ row['Hours Played'] }}</td>
+                            <td>{{ row['Date Finished'] }}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -76,20 +74,20 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        {% for col in columns if col != 'Status' %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
+                        <th>Platform</th>
+                        <th>Title</th>
+                        <th>HLTB Story</th>
+                        <th>Critic Rating</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
-                        {% if row['Status'] == 'Backlog' %}
-                            <tr>
-                                {% for col in columns if col != 'Status' %}
-                                    <td>{{ row[col] }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endif %}
+                    {% for row in data | sort(attribute='Critic Rating', reverse=True) if row['Status'] == 'Backlog' %}
+                        <tr>
+                            <td>{{ row['Platform'] }}</td>
+                            <td>{{ row['Title'] }}</td>
+                            <td>{{ row['HLTB Story'] }}</td>
+                            <td>{{ row['Critic Rating'] }}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
