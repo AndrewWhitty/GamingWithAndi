@@ -1,7 +1,7 @@
 /* Dark theme */
 .dark-background {
     background-color: #121212;
-    color: #FFFFFF;
+    color: #CCCCCC; /* Lighter gray text color for readability */
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #BB86FC;
+    color: #CCCCCC;
 }
 
 /* Container for the content */
@@ -50,7 +50,7 @@ th, td {
 
 th {
     background-color: #1E1E1E;
-    color: #BB86FC;
+    color: #CCCCCC;
 }
 
 /* Responsive styles */
