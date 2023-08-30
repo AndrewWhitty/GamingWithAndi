@@ -20,6 +20,8 @@ def gaming_log():
 def stats():
     platform_stats = data['Platform'].value_counts().to_dict()
 
+    total_games_owned_per_platform = data[data['Platform'].isin(data['Platform'].value_counts().index)].groupby('Platform').size().to_dict()
+    
     total_games = len(data)
     total_hours_played = round(data['Hours Played'].sum(), 0)
     average_hours_per_game = round(total_hours_played / total_games, 0)
@@ -72,7 +74,8 @@ def stats():
                            games_completed_this_year=games_completed_this_year,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            average_hours_per_platform=average_hours_per_platform,
-                           total_hours_per_year=total_hours_per_year)
+                           total_hours_per_year=total_hours_per_year),
+                            total_games_owned_per_platform=total_games_owned_per_platform)
 
 if __name__ == '__main__':
     app.run(debug=True)
