@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 data = pd.read_csv('data/gamedata.csv')
 
-default_columns = ['Title', 'Platform', 'Status', 'Completion %', 'HLTB Story', 'HLTB Extras', 'HLTB Complete', 'Critic Rating']
+default_columns = ['Status', 'Platform', 'Title', 'Completion %', 'HLTB Story', 'Critic Rating']
 
 @app.route('/')
 def gaming_log():
@@ -18,16 +18,14 @@ def gaming_log():
 
 @app.route('/stats')
 def stats():
-    platform_stats = data['Platform'].value_counts().to_dict()
+    total_games_owned_per_platform = {platform: int(count) for platform, count in data[data['Platform'].isin(data['Platform'].value_counts().index)].groupby('Platform').size().to_dict().items()}
 
-    total_games_owned_per_platform = data[data['Platform'].isin(data['Platform'].value_counts().index)].groupby('Platform').size().to_dict()
-    
     total_games = len(data)
     total_hours_played = int(data['Hours Played'].sum())
     average_hours_per_game = int(total_hours_played / total_games)
     total_completed_games = len(data[data['Status'] == 'Completed'])
-    total_in_progress_games = len(data[data['Status'] == 'Now Playing'])
-    total_unplayed_games = len(data[(data['Status'] != 'Completed') & (data['Status'] != 'Now Playing')])
+    total_in_progress_games = len(data[data['Status'] == 'Playing'])
+    total_unplayed_games = len(data[data['Status'] == 'Backlog'])
 
     completed_games = data[data['Status'] == 'Completed']
     valid_hours_played = completed_games[(completed_games['Hours Played'].notnull()) & (completed_games['Hours Played'] > 0)]
@@ -42,8 +40,7 @@ def stats():
     average_time_played = int(valid_hours_played['Hours Played'].mean())
 
     valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
-    average_critic_rating_per_platform = valid_critic_ratings.groupby('Platform')['Critic Rating'].mean().to_dict()
-
+    average_critic_rating_per_platform = {platform: int(rating) for platform, rating in average_critic_rating_per_platform.items()}
 
     current_year = datetime.now().year
     valid_date_completed = completed_games['Date Finished'].dropna()
@@ -52,14 +49,21 @@ def stats():
     percentage_completed_vs_uncompleted = round((total_completed_games / total_games) * 100, 2)
 
     valid_hours_per_platform = completed_games[completed_games['Hours Played'] > 0]
-    average_hours_per_platform = valid_hours_per_platform.groupby('Platform')['Hours Played'].mean().to_dict()
+    average_hours_per_platform = valid_hours_per_platform.groupby('Platform')['Hours Played'].mean().round(0).astype(int).to_dict()
 
     data['Year'] = pd.to_datetime(data['Date Finished']).dt.year
 
-    total_hours_per_year = data.groupby('Year')['Hours Played'].sum().to_dict()
+    total_hours_per_year = {year: int(hours) for year, hours in total_hours_per_year.items()}
 
+    # Sort the dictionary values in descending order
+    sorted_total_games_owned_per_platform = dict(sorted(total_games_owned_per_platform.items(), key=lambda item: item[1], reverse=True))
+    sorted_average_hours_per_platform = dict(sorted(average_hours_per_platform.items(), key=lambda item: item[1], reverse=True))
+    sorted_total_hours_per_year = dict(sorted(total_hours_per_year.items(), key=lambda item: item[1], reverse=True))
+    
     return render_template('stats.html',
-                           platform_stats=platform_stats,
+                           total_games_owned_per_platform=sorted_total_games_owned_per_platform,
+                           average_hours_per_platform=sorted_average_hours_per_platform,
+                           total_hours_per_year=sorted_total_hours_per_year,
                            total_games=total_games,
                            total_hours_played=total_hours_played,
                            average_hours_per_game=average_hours_per_game,
@@ -71,12 +75,9 @@ def stats():
                            longest_time_played=longest_time_played,
                            shortest_time_played=shortest_time_played,
                            average_time_played=average_time_played,
-                           average_critic_rating_per_platform=average_critic_rating_per_platform,
+                           average_critic_rating_per_platform=sorted_average_critic_rating_per_platform,
                            games_completed_this_year=games_completed_this_year,
-                           percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
-                           average_hours_per_platform=average_hours_per_platform,
-                           total_hours_per_year=total_hours_per_year,
-                           total_games_owned_per_platform=total_games_owned_per_platform)
+                           percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted
 
 if __name__ == '__main__':
     app.run(debug=True)
