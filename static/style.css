@@ -1,7 +1,7 @@
 /* Dark theme */
 .dark-background {
     background-color: #121212;
-    color: #CCCCCC; /* Lighter gray text color for readability */
+    color: #CCCCCC;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -36,7 +36,7 @@ nav a {
 
 /* Table styles */
 .table-container {
-    max-height: 500px; /* Adjust the value as needed */
+    max-height: 800px; /* Adjust the value as needed */
     overflow-y: auto;
     margin-top: 20px;
     border: 1px solid #FFFFFF;
@@ -56,6 +56,11 @@ th, td {
 th {
     background-color: #1E1E1E;
     color: #CCCCCC;
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+    background-color: #0E0E0E; /* Slightly darker shade */
 }
 
 /* Responsive styles */
