@@ -39,24 +39,82 @@
     </nav>
     <main class="container">
         <h1>Gaming With Andi - Gaming Log</h1>
-        <table id="gaming-table" class="table table-striped">
-            <thead>
-                <tr>
-                    {% for col in columns %}
-                    <th>{{ col }}</th>
+        
+        <div class="status-table">
+            <h2>Playing Status</h2>
+            <table id="playing-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <!-- Loop through columns except 'Status' -->
+                        {% for col in columns if col != 'Status' %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through rows with 'Playing' status -->
+                    {% for row in data if row['Status'] == 'Playing' %}
+                        <tr>
+                            <!-- Loop through columns except 'Status' -->
+                            {% for col in columns if col != 'Status' %}
+                                <td>{{ row[col] }}</td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in data %}
-                <tr>
-                    {% for col in columns %}
-                    <td>{{ row[col] }}</td>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="status-table">
+            <h2>Completed Status</h2>
+            <table id="completed-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <!-- Loop through columns except 'Status' -->
+                        {% for col in columns if col != 'Status' %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through rows with 'Completed' status -->
+                    {% for row in data if row['Status'] == 'Completed' %}
+                        <tr>
+                            <!-- Loop through columns except 'Status' -->
+                            {% for col in columns if col != 'Status' %}
+                                <td>{{ row[col] }}</td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="status-table">
+            <h2>Backlog Status</h2>
+            <table id="backlog-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <!-- Loop through columns except 'Status' -->
+                        {% for col in columns if col != 'Status' %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through rows with 'Backlog' status -->
+                    {% for row in data if row['Status'] == 'Backlog' %}
+                        <tr>
+                            <!-- Loop through columns except 'Status' -->
+                            {% for col in columns if col != 'Status' %}
+                                <td>{{ row[col] }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
     </main>
 </body>
 </html>
