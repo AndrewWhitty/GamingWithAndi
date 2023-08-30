@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming With Andi - Gaming Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='jquery.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- Move this link to be the last one -->
     <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
     <script>
@@ -27,6 +27,17 @@
                     table.column(col).visible(true);
                 });
             });
+
+            // Populate the platform dropdown
+            const platformDropdown = $('#platform-dropdown');
+            $.get('/get_platforms', function(data) {
+                data.forEach(platform => {
+                    platformDropdown.append($('<option>', {
+                        value: platform,
+                        text: platform
+                    }));
+                });
+            });
         });
     </script>
 </head>
@@ -45,31 +56,30 @@
     </nav>
     <main class="container">
         <h1>Gaming With Andi - Gaming Log</h1>
-        <select id="columns" multiple>
-            {% for col in default_columns %}
-            <option value="{{ col }}" {% if col in columns %}selected{% endif %}>{{ col }}</option>
-            {% endfor %}
-        </select>
-        <div class="table-container">
-            <table id="gaming-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        {% for col in columns %}
-                        <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in data %}
-                    <tr>
-                        {% for col in columns %}
-                        <td>{{ row[col] }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="form-group">
+            <label for="platform-dropdown">Select Platform:</label>
+            <select id="platform-dropdown" class="form-control">
+                <option value="" selected disabled>Select a platform</option>
+            </select>
         </div>
+        <table id="gaming-table" class="table table-striped">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </main>
 </body>
 </html>
