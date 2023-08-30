@@ -82,7 +82,7 @@ def stats():
                            longest_time_played=longest_time_played,
                            shortest_time_played=shortest_time_played,
                            average_time_played=average_time_played,
-                           average_critic_rating_per_platform=sorted_average_critic_rating_per_platform,
+                           average_critic_rating_per_platform=sorted_average_critic_rating_per_platform,  # Pass the sorted dictionary here
                            games_completed_this_year=games_completed_this_year,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted
                           )
