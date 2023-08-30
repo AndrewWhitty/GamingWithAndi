@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gaming With Andi - Stats</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Stats</h1>
+    <h2>Average Hours per Game: {{ average_hours_per_game }}</h2>
+    <h2>Current Year in Gaming</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Hours Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for _, row in current_year_stats.iterrows() %}
+            <tr>
+                <td>{{ row['Title'] }}</td>
+                <td>{{ row['Hours Played'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
