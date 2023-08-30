@@ -41,10 +41,6 @@ def stats():
     valid_date_completed = data['Date Finished'].dropna()
     games_completed_this_year = len(valid_date_completed[valid_date_completed.str.contains(str(current_year))])
 
-    # Note: The 'Genre' and 'Format' columns are removed from calculations
-    # most_played_genre = data['Genre'].mode().iloc[0]
-    # average_completion_by_genre = data.groupby('Genre')['Completion %'].mean().to_dict()
-
     percentage_completed_vs_uncompleted = (total_completed_games / total_games) * 100
     most_common_status = data['Status'].mode().iloc[0]
     average_hours_per_platform = data.groupby('Platform')['Hours Played'].mean().to_dict()
@@ -76,7 +72,6 @@ def stats():
                            highest_critic_rating=highest_critic_rating,
                            lowest_critic_rating=lowest_critic_rating,
                            games_completed_this_year=games_completed_this_year,
-                           average_completion_by_genre=average_completion_by_genre,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            most_common_status=most_common_status,
                            average_hours_per_platform=average_hours_per_platform,
