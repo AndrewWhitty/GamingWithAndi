@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request
 import pandas as pd
-from datetime import datetime  # Import the datetime module
+from datetime import datetime
 
 app = Flask(__name__)
 
-# Load CSV data into a Pandas DataFrame
 data = pd.read_csv('data/gamedata.csv')
 
 default_columns = ['Title', 'Platform', 'Status', 'Completion %', 'HLTB Story', 'HLTB Extras', 'HLTB Complete', 'Critic Rating']
@@ -51,9 +50,11 @@ def stats():
     valid_hours_per_platform = data[data['Hours Played'] > 0]
     average_hours_per_platform = valid_hours_per_platform.groupby('Platform')['Hours Played'].mean().to_dict()
 
-    total_hours_per_year = data.groupby('Year')['Hours Played'].sum().to_dict()
-
     total_games_owned_per_platform = valid_hours_per_platform['Platform'].value_counts().to_dict()
+
+    data['Year'] = pd.to_datetime(data['Date Finished']).dt.year  # Add this line to calculate the 'Year' column
+
+    total_hours_per_year = data.groupby('Year')['Hours Played'].sum().to_dict()
 
     return render_template('stats.html',
                            platform_stats=platform_stats,
