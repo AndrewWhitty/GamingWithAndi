@@ -36,18 +36,19 @@
             <p>Total Completed Games: {{ total_completed_games }}</p>
             <p>Total Games In Progress: {{ total_in_progress_games }}</p>
             <p>Total Unplayed Games: {{ total_unplayed_games }}</p>
-            <p>Average Completion Percentage: {{ average_completion_percentage }}</p>
+            <p>Average Hours Per Game: {{ average_hours_per_completed_game }}</p>
             <p>Most Played Platform: {{ most_played_platform }}</p>
             <p>Longest Time Played: {{ longest_time_played }}</p>
             <p>Shortest Time Played: {{ shortest_time_played }}</p>
             <p>Average Time Played: {{ average_time_played }}</p>
-            <p>Average Critic Rating: {{ average_critic_rating }}</p>
-            <!-- Remove the following lines since you've removed these calculations -->
-            <!--<p>Highest Critic Rating: {{ highest_critic_rating }}</p>
-            <p>Lowest Critic Rating: {{ lowest_critic_rating }}</p>
-            <p>Games Completed This Year: {{ games_completed_this_year }}</p>
-            <p>Collection Percentage Completed: {{ percentage_completed_vs_uncompleted }}%</p>
-            <p>Most Common Status: {{ most_common_status }}</p>-->
+        </div>
+        <div class="stat-row">
+            <h3>Average Critic Ratings per Platform:</h3>
+            <ul>
+              {% for platform, rating in average_critic_rating_per_platform.items() %}
+                <li>{{ platform }}: {{ rating }}</li>
+              {% endfor %}
+            </ul>
         </div>
         <div class="stat-row">
             <h3>Average Hours Played Per Platform</h3>
