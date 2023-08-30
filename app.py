@@ -10,14 +10,8 @@ default_columns = ['Status', 'Platform', 'Title', 'Completion %', 'HLTB Story', 
 
 @app.route('/')
 def gaming_log():
-    return render_template('gaming_log.html')
-
-@app.route('/get_table_data/<Status>')
-def get_table_data(Status):
-    filtered_data = data[data['Status'] == Status]
     columns = [col for col in default_columns if col != 'Status']
-    table_data = filtered_data[columns].to_dict('records')
-    return jsonify(table_data)
+    return render_template('gaming_log.html', columns=columns, data=data.to_dict('records'))
 
 @app.route('/stats')
 def stats():
