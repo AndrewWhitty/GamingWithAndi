@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming With Andi - Gaming Log</title>
+    <!-- ... (other meta tags) ... -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='tablesorter.js') }}"></script>
+    <script src="{{ url_for('static', filename='datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#columns').change(function() {
-                const selectedColumns = $(this).val();
-                const params = new URLSearchParams(window.location.search);
-                params.set('columns', selectedColumns);
-                window.location.search = params.toString();
+            const table = $('#gaming-table').DataTable({
+                responsive: true,
+                columnDefs: [
+                    { orderable: false, targets: 'no-sort' }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'columnsToggle'
+                ]
             });
 
-            $('#gaming-table').tablesorter();
+            $('#columns').on('change', function() {
+                const selectedColumns = $(this).val();
+                table.columns().visible(false);
+                selectedColumns.forEach(col => {
+                    table.column(col).visible(true);
+                });
+            });
         });
     </script>
 </head>
@@ -44,7 +52,7 @@
         <table id="gaming-table" class="table table-striped">
             <thead>
                 <tr>
-                    {% for col in columns %}
+                    {% for col in default_columns %}
                     <th>{{ col }}</th>
                     {% endfor %}
                 </tr>
@@ -52,7 +60,7 @@
             <tbody>
                 {% for row in data %}
                 <tr>
-                    {% for col in columns %}
+                    {% for col in default_columns %}
                     <td>{{ row[col] }}</td>
                     {% endfor %}
                 </tr>
