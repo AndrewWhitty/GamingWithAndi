@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming With Andi - Gaming Log</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='tablesorter.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -22,35 +23,43 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="/">Gaming Log</a></li>
-            <li><a href="/stats">Stats</a></li>
-        </ul>
+        <div class="container">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Gaming Log</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stats">Stats</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-    <h1>Gaming With Andi - Gaming Log</h1>
-    <select id="columns" multiple>
-        {% for col in default_columns %}
-        <option value="{{ col }}" {% if col in columns %}selected{% endif %}>{{ col }}</option>
-        {% endfor %}
-    </select>
-    <table id="gaming-table" class="tablesorter">
-        <thead>
-            <tr>
-                {% for col in columns %}
-                <th>{{ col }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in data %}
-            <tr>
-                {% for col in columns %}
-                <td>{{ row[col] }}</td>
-                {% endfor %}
-            </tr>
+    <div class="container">
+        <h1>Gaming With Andi - Gaming Log</h1>
+        <select id="columns" multiple>
+            {% for col in default_columns %}
+            <option value="{{ col }}" {% if col in columns %}selected{% endif %}>{{ col }}</option>
             {% endfor %}
-        </tbody>
-    </table>
-    <a href="/stats">Go to Stats Page</a>
+        </select>
+        <table id="gaming-table" class="table table-striped">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/stats">Go to Stats Page</a>
+    </div>
 </body>
 </html>
