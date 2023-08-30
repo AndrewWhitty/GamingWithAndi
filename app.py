@@ -1,29 +1,35 @@
-from flask import Flask, render_template
-import pandas as pd
+from flask import Flask, render_template, request
+import csv
 
 app = Flask(__name__)
 
 @app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/gaming_log')
 def gaming_log():
-    data = pd.read_csv('data/gamedata.csv')
-    return render_template('gaming_log.html', data=data)
+    with open('data/gamedata.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        games = list(reader)
+    return render_template('gaming_log.html', games=games)
 
-@app.route('/stats')
+@app.route('/stats', methods=['GET', 'POST'])
 def stats():
-    data = pd.read_csv('gamedata.csv')
-    total_hours = data['Hours Played'].sum()
-    game_count = len(data)
-    average_hours_per_game = total_hours / game_count
-
-    # Calculate your gaming stats here
-    # Example: Current year in gaming
-    current_year_stats = data[data['Date Finished'].str.contains('2023')]
-    current_year_hours = current_year_stats['Hours Played'].sum()
-    current_year_games = len(current_year_stats)
-    current_year_stats = current_year_stats.groupby('Title').agg({'Hours Played': 'sum'}).reset_index()
-    current_year_stats = current_year_stats.sort_values('Hours Played', ascending=False)
-
-    return render_template('stats.html', average_hours_per_game=average_hours_per_game, current_year_stats=current_year_stats)
+    platforms = set()
+    with open('data/gamedata.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        games = list(reader)
+        for game in games:
+            platforms.add(game['platform'])
+    
+    selected_platform = request.form.get('platform')
+    if selected_platform == 'all':
+        filtered_games = games
+    else:
+        filtered_games = [game for game in games if game['platform'] == selected_platform]
+    
+    return render_template('stats.html', games=filtered_games, platforms=platforms)
 
 if __name__ == '__main__':
     app.run()
