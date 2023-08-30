@@ -1,41 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming With Andi - Gaming Log</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Gaming Log</h1>
+    <h1>Gaming With Andi - Gaming Log</h1>
     <table>
         <thead>
             <tr>
-                <th>Completion %</th>
-                <th>Critic Rating</th>
-                <th>Format</th>
-                <th>My Rating</th>
-                <th>Date Finished</th>
-                <th>Hours Played</th>
-                <th>Release Date</th>
-                <th>Date Started</th>
-                <th>HLTB Complete</th>
-                <th>HLTB Extras</th>
-                <th>HLTB Story</th>
-                <th>Banner URL</th>
-                <th>Developer</th>
-                <th>Platform</th>
-                <th>Poster URL</th>
-                <th>Publisher</th>
-                <th>Review</th>
-                <th>Status</th>
-                <th>Summary</th>
-                <th>Title</th>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for _, row in data.iterrows() %}
+            {% for row in data %}
             <tr>
-                {% for _, value in row.iteritems() %}
-                <td>{{ value }}</td>
+                {% for col in columns %}
+                <td>{{ row[col] }}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
