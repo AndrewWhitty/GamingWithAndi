@@ -51,16 +51,16 @@ th, td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #FFFFFF;
+    color: #CCCCCC; /* Text color for cells */
 }
 
 th {
     background-color: #1E1E1E;
-    color: #CCCCCC;
 }
 
 /* Alternating row colors */
 tr:nth-child(even) {
-    background-color: #0E0E0E; /* Slightly darker shade */
+    background-color: #0D0D0D; /* Slightly different darker shade */
 }
 
 /* Responsive styles */
