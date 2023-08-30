@@ -34,26 +34,18 @@
             <p>Total Hours Played: {{ total_hours_played }}</p>
             <p>Average Hours Played Per Game: {{ average_hours_per_game }}</p>
             <p>Total Completed Games: {{ total_completed_games }}</p>
-        </div>
-        <div class="stat-row">
             <p>Total Games In Progress: {{ total_in_progress_games }}</p>
             <p>Total Unplayed Games: {{ total_unplayed_games }}</p>
             <p>Average Completion Percentage: {{ average_completion_percentage }}</p>
             <p>Most Played Platform: {{ most_played_platform }}</p>
-        </div>
-        <div class="stat-row">
             <p>Longest Time Played: {{ longest_time_played }}</p>
             <p>Shortest Time Played: {{ shortest_time_played }}</p>
             <p>Average Time Played: {{ average_time_played }}</p>
             <p>Average Critic Rating: {{ average_critic_rating }}</p>
-        </div>
-        <div class="stat-row">
             <p>Highest Critic Rating: {{ highest_critic_rating }}</p>
             <p>Lowest Critic Rating: {{ lowest_critic_rating }}</p>
             <p>Games Completed This Year: {{ games_completed_this_year }}</p>
-        </div>
-        <div class="stat-row">
-            <p>Percentage Completed vs. Uncompleted: {{ percentage_completed_vs_uncompleted }}%</p>
+            <p>Collection Percentage Completed: {{ percentage_completed_vs_uncompleted }}%</p>
             <p>Most Common Status: {{ most_common_status }}</p>
         </div>
         <div class="stat-row">
@@ -65,10 +57,18 @@
             </ul>
         </div>
         <div class="stat-row">
-            <h3>Average Hours Played By Completion Range</h3>
+            <h3>Total Hours Played Per Year</h3>
             <ul>
-                {% for completion_range, average_hours in average_hours_by_completion_range.items() %}
-                    <li>{{ completion_range }}: {{ average_hours }}</li>
+                {% for year, total_hours in total_hours_per_year.items() %}
+                    <li>{{ year }}: {{ total_hours }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="stat-row">
+            <h3>Total Games Owned Per Platform</h3>
+            <ul>
+                {% for platform, total_games_owned in total_games_owned_per_platform.items() %}
+                    <li>{{ platform }}: {{ total_games_owned }}</li>
                 {% endfor %}
             </ul>
         </div>
