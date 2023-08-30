@@ -49,24 +49,26 @@
             <option value="{{ col }}" {% if col in columns %}selected{% endif %}>{{ col }}</option>
             {% endfor %}
         </select>
-        <table id="gaming-table" class="table table-striped">
-            <thead>
-                <tr>
-                    {% for col in columns %}
-                    <th>{{ col }}</th>
+        <div class="table-container">
+            <table id="gaming-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for col in columns %}
+                        <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        {% for col in columns %}
+                        <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in data %}
-                <tr>
-                    {% for col in columns %}
-                    <td>{{ row[col] }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         <a href="/stats">Go to Stats Page</a>
     </main>
 </body>
