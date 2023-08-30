@@ -27,35 +27,31 @@ def stats():
     total_in_progress_games = len(data[data['Status'] == 'Now Playing'])
     total_unplayed_games = len(data[(data['Status'] != 'Completed') & (data['Status'] != 'Now Playing')])
 
-    valid_completion_percentages = data[(data['Status'] == 'Completed') & data['Completion %'].notnull() & (data['Completion %'] > 0)]
-
     completed_games = data[data['Status'] == 'Completed']
     valid_completion_percentages = completed_games[completed_games['Completion %'].notnull() & (completed_games['Completion %'] > 0)]
     average_completion_percentage = round(valid_completion_percentages['Completion %'].mean(), 2)
     
-    most_played_platform = data[data['Status'] == 'Completed']['Platform'].mode().iloc[0]
+    most_played_platform = completed_games['Platform'].mode().iloc[0]
 
-    valid_hours_played = data[(data['Hours Played'].notnull()) & (data['Hours Played'] > 0) & (data['Status'] == 'Completed')]
+    valid_hours_played = completed_games[(completed_games['Hours Played'].notnull()) & (completed_games['Hours Played'] > 0)]
     
     longest_time_played = round(valid_hours_played['Hours Played'].max(), 0)
     shortest_time_played = round(valid_hours_played['Hours Played'].min(), 0)
     average_time_played = round(valid_hours_played['Hours Played'].mean(), 0)
 
-    valid_critic_ratings = data[data['Critic Rating'].notnull() & (data['Critic Rating'] > 0)]
+    valid_critic_ratings = completed_games[completed_games['Critic Rating'].notnull() & (completed_games['Critic Rating'] > 0)]
     average_critic_rating = round(valid_critic_ratings['Critic Rating'].mean(), 2)
 
     current_year = datetime.now().year
-    valid_date_completed = data[data['Status'] == 'Completed']['Date Finished'].dropna()
-    games_completed_this_year = len(valid_date_completed[valid_date_completed.str.contains(str(current_year))])
+    valid_date_completed = completed_games['Date Finished'].dropna()
+    games_completed_this_year = len(valid_date_completed[valid_date_completed.astype(str).str.contains(str(current_year))])
 
     percentage_completed_vs_uncompleted = round((total_completed_games / total_games) * 100, 2)
 
-    valid_hours_per_platform = data[(data['Hours Played'] > 0) & (data['Status'] == 'Completed')]
+    valid_hours_per_platform = completed_games[completed_games['Hours Played'] > 0]
     average_hours_per_platform = valid_hours_per_platform.groupby('Platform')['Hours Played'].mean().to_dict()
 
-    total_games_owned_per_platform = valid_hours_per_platform['Platform'].value_counts().to_dict()
-
-    data['Year'] = pd.to_datetime(data['Date Finished']).dt.year  # Add this line to calculate the 'Year' column
+    data['Year'] = pd.to_datetime(data['Date Finished']).dt.year
 
     total_hours_per_year = data.groupby('Year')['Hours Played'].sum().to_dict()
 
