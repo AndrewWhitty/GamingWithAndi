@@ -78,6 +78,7 @@ def stats():
                            average_critic_rating_per_platform=sorted_average_critic_rating_per_platform,
                            games_completed_this_year=games_completed_this_year,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted
-
+                          )
+    
 if __name__ == '__main__':
     app.run(debug=True)
