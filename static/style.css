@@ -20,14 +20,15 @@ nav a {
 
 /* Table styles */
 .table-container {
-    max-height: 800px;
-    overflow-y: auto;
+    max-width: 100%; /* Adjust the width as needed */
+    overflow-x: auto;
     margin-top: 20px;
     border: 1px solid #FFFFFF;
 }
 
 table {
     width: 100%;
+    table-layout: fixed; /* Ensures that table columns have equal width */
     border-collapse: collapse;
 }
 
@@ -36,6 +37,7 @@ th, td {
     text-align: left;
     border-bottom: 1px solid #FFFFFF;
     color: #CCCCCC;
+    word-wrap: break-word; /* Prevent long content from overflowing */
 }
 
 th {
@@ -71,5 +73,10 @@ h1, h2, h3 {
 
     nav li {
         margin-bottom: 10px;
+    }
+
+    /* Adjust table styles for smaller screens */
+    th, td {
+        padding: 8px;
     }
 }
