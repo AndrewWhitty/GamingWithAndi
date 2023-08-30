@@ -38,16 +38,17 @@ def stats():
     lowest_critic_rating = data['Critic Rating'].min()
 
     current_year = datetime.now().year
-    valid_date_completed = data['Date Finished'].dropna()  # Drop NaN values
+    valid_date_completed = data['Date Finished'].dropna()
     games_completed_this_year = len(valid_date_completed[valid_date_completed.str.contains(str(current_year))])
 
-    most_played_genre = data['Genre'].mode().iloc[0]
-    average_completion_by_genre = data.groupby('Genre')['Completion %'].mean().to_dict()
+    # Note: The 'Genre' and 'Format' columns are removed from calculations
+    # most_played_genre = data['Genre'].mode().iloc[0]
+    # average_completion_by_genre = data.groupby('Genre')['Completion %'].mean().to_dict()
+
     percentage_completed_vs_uncompleted = (total_completed_games / total_games) * 100
     most_common_status = data['Status'].mode().iloc[0]
     average_hours_per_platform = data.groupby('Platform')['Hours Played'].mean().to_dict()
 
-    # Calculate average hours played for games with a certain completion percentage range
     average_hours_by_completion_range = {}
     for range_start in range(0, 101, 20):
         range_end = range_start + 19
@@ -55,8 +56,7 @@ def stats():
         average_hours = data[mask]['Hours Played'].mean()
         average_hours_by_completion_range[f'{range_start}-{range_end}%'] = average_hours
 
-    # Calculate stats for total games above/below certain thresholds, platform percentage, time gap, decade count, and more
-    # ...
+    # ... (remaining stats sections)
 
     return render_template('stats.html',
                            platform_stats=platform_stats,
@@ -76,7 +76,6 @@ def stats():
                            highest_critic_rating=highest_critic_rating,
                            lowest_critic_rating=lowest_critic_rating,
                            games_completed_this_year=games_completed_this_year,
-                           most_played_genre=most_played_genre,
                            average_completion_by_genre=average_completion_by_genre,
                            percentage_completed_vs_uncompleted=percentage_completed_vs_uncompleted,
                            most_common_status=most_common_status,
@@ -84,4 +83,4 @@ def stats():
                            average_hours_by_completion_range=average_hours_by_completion_range)
 
 if __name__ == '__main__':
-    app.run(debug=True)    
+    app.run(debug=True)
